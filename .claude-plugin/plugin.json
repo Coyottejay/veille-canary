@@ -1,0 +1,9 @@
+{
+  "name": "canary-veille",
+  "version": "1.0.0",
+  "description": "Plugin temoin : rend un jeton unique qui prouve que le contenu du depot est bien arrive dans Claude.",
+  "author": { "name": "Jay", "url": "https://github.com/Coyottejay" },
+  "homepage": "https://github.com/Coyottejay/veille-canary",
+  "repository": "https://github.com/Coyottejay/veille-canary",
+  "license": "MIT"
+}

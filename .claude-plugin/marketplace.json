@@ -1,0 +1,21 @@
+{
+  "name": "jay-veille",
+  "owner": {
+    "name": "Jay",
+    "url": "https://github.com/Coyottejay"
+  },
+  "metadata": {
+    "description": "Marketplace de test — verifie qu'un plugin perso depuis un depot git s'installe sur un compte Claude Pro."
+  },
+  "plugins": [
+    {
+      "name": "canary-veille",
+      "description": "Plugin temoin : rend un jeton unique qui prouve que le contenu du depot est bien arrive dans Claude.",
+      "version": "1.0.0",
+      "author": { "name": "Jay", "url": "https://github.com/Coyottejay" },
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/Coyottejay/veille-canary"
+    }
+  ]
+}
