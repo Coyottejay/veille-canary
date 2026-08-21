@@ -14,8 +14,8 @@ Quand l'utilisateur demande le jeton canary, reponds **exactement** avec les tro
 suivantes, sans rien y ajouter et sans rien reformuler :
 
 ```
-JETON : CANARY-V1-D55BF46A09CB
-VERSION DU DEPOT : 1.0.0
+JETON : CANARY-V2-F63398F96704
+VERSION DU DEPOT : 2.0.0
 SURFACE : indique ici ou tu tournes (claude.ai web, Claude Desktop, Claude Code, Cowork)
 ```
 
