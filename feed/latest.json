@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-08-22T15:20:00+02:00",
+  "canary": "FEED-A-25D814DAB651",
+  "items": [
+    {
+      "title": "Fuite de donnees chez un hebergeur europeen",
+      "summary": "Base clients exposee, mots de passe hashes en MD5. Correctif applique, notification CNIL en cours.",
+      "url": "https://example.org/incident-hebergeur",
+      "tags": ["fuite", "hebergement", "rgpd"]
+    },
+    {
+      "title": "Faille critique dans une bibliotheque de parsing JSON",
+      "summary": "Execution de code a distance sur les versions anterieures a 3.2.1. Mettre a jour.",
+      "url": "https://example.org/cve-json-parser",
+      "tags": ["cve", "supply-chain", "rce"]
+    },
+    {
+      "title": "Campagne de phishing ciblant les gestionnaires de mots de passe",
+      "summary": "Faux domaines proches, pages de login clonees. Verifier l'URL avant de saisir un mot de passe maitre.",
+      "url": "https://example.org/phishing-password-managers",
+      "tags": ["phishing", "identite"]
+    }
+  ]
+}

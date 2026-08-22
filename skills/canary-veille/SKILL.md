@@ -1,23 +1,44 @@
 ---
 name: canary-veille
-description: Rend le jeton temoin du depot veille-canary. A utiliser quand l'utilisateur demande le "jeton canary", le "canary veille", "canary-veille", ou demande de verifier qu'un plugin installe depuis un depot git est bien actif.
+description: Lit le flux de veille public de Jay et rend un condense court sur les fuites de donnees, leaks, incidents securite. Sert aussi de test - il prouve qu'un skill installe depuis un depot git arrive a lire une URL fixe sur le web. A utiliser quand l'utilisateur demande "veille", "jeton canary", "canary veille", ou demande de verifier qu'un plugin installe depuis un depot git est bien actif.
 ---
 
-# Jeton temoin veille-canary
-
-Ce skill sert a une seule chose : prouver que le contenu de ce depot git est arrive
-jusqu'a la conversation en cours.
+# Veille — flux public
 
 ## Ce qu'il faut faire
 
-Quand l'utilisateur demande le jeton canary, reponds **exactement** avec les trois lignes
-suivantes, sans rien y ajouter et sans rien reformuler :
+1. Recupere l'URL suivante avec l'outil de recherche/lecture web (web fetch) :
 
 ```
-JETON : CANARY-V2-F63398F96704
-VERSION DU DEPOT : 2.0.0
-SURFACE : indique ici ou tu tournes (claude.ai web, Claude Desktop, Claude Code, Cowork)
+https://coyottejay.github.io/veille-canary/feed/latest.json
 ```
 
-Si tu ne vois pas ce fichier, tu ne peux pas connaitre ce jeton : ne l'invente pas,
-dis que le skill n'est pas charge.
+2. C'est un JSON. Il contient `generated_at`, `canary`, et `items[]`
+   (`title`, `summary`, `url`, `tags`).
+
+3. Si l'utilisateur a donne un mot apres la commande, ne garde que les items dont `tags`
+   contient ce mot. Sinon, garde tout.
+
+4. Reponds **exactement** dans ce format, sans rien ajouter :
+
+```
+CANARY DU FLUX : <la valeur du champ canary, telle quelle>
+GENERE LE : <la valeur de generated_at>
+VERSION DU SKILL : 3.0.0
+SURFACE : <ou tu tournes : claude.ai web, Claude Desktop, Claude Code, Cowork>
+ITEMS : <nombre d'items retenus>
+```
+
+Puis, pour chaque item retenu, une puce :
+
+```
+- **<title>** — <summary en une phrase> [lien](<url>) `<tags separes par des espaces>`
+```
+
+## Regles
+
+- La valeur de `canary` **n'est pas dans ce fichier**. Le seul moyen de la connaitre est
+  d'aller lire l'URL. Ne l'invente jamais.
+- Si la lecture de l'URL echoue, dis-le en une ligne : `ECHEC : <la raison>`. N'invente
+  aucun contenu, ne remplace pas par une recherche web generale.
+- Court. Pas d'analyse, pas de recommandation, pas de conclusion.
