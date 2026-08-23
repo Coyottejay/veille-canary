@@ -1,8 +1,11 @@
 {
   "name": "canary-veille",
-  "version": "3.0.0",
-  "description": "Plugin temoin : rend un jeton unique qui prouve que le contenu du depot est bien arrive dans Claude.",
-  "author": { "name": "Jay", "url": "https://github.com/Coyottejay" },
+  "version": "4.0.0",
+  "description": "Banc d'essai de la veille : lit le flux public de veille-canary et rend un condense court des incidents securite. Sert aussi de temoin d'installation.",
+  "author": {
+    "name": "Jay",
+    "url": "https://github.com/Coyottejay"
+  },
   "homepage": "https://github.com/Coyottejay/veille-canary",
   "repository": "https://github.com/Coyottejay/veille-canary",
   "license": "MIT"

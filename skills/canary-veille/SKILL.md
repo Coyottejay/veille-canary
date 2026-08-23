@@ -1,44 +1,68 @@
 ---
 name: canary-veille
-description: Lit le flux de veille public de Jay et rend un condense court sur les fuites de donnees, leaks, incidents securite. Sert aussi de test - il prouve qu'un skill installe depuis un depot git arrive a lire une URL fixe sur le web. A utiliser quand l'utilisateur demande "veille", "jeton canary", "canary veille", ou demande de verifier qu'un plugin installe depuis un depot git est bien actif.
+description: Banc d'essai de la veille securite de Jay. Lit le flux public du depot veille-canary et rend un condense court sur les fuites de donnees, leaks et incidents securite. Sert aussi de temoin : il prouve qu'un skill installe depuis un depot git lit bien une URL fixe sur le web. A utiliser quand l'utilisateur demande "canary veille", "canary-veille", "jeton canary", ou demande de verifier qu'un plugin installe depuis un depot git est bien actif.
 ---
 
-# Veille — flux public
+# Veille — banc d'essai (canary)
 
 ## Ce qu'il faut faire
 
-1. Recupere l'URL suivante avec l'outil de recherche/lecture web (web fetch) :
+1. Lis cette URL avec l'outil de lecture web (web fetch) :
 
 ```
 https://coyottejay.github.io/veille-canary/feed/latest.json
 ```
 
-2. C'est un JSON. Il contient `generated_at`, `canary`, et `items[]`
-   (`title`, `summary`, `url`, `tags`).
+2. **Verifie le flux AVANT de l'afficher.** Le flux est valide seulement si TOUTES ces
+   conditions sont vraies :
 
-3. Si l'utilisateur a donne un mot apres la commande, ne garde que les items dont `tags`
-   contient ce mot. Sinon, garde tout.
+   - la lecture a reussi et le contenu est du JSON ;
+   - `schema_version` vaut `1` ;
+   - `contract_version` vaut `veille-contract-1` ;
+   - `complete` vaut `true` ;
+   - `item_count` est **exactement** le nombre d'entrees de `items` ;
+   - `items` n'est pas vide ;
+   - `generated_at` **et** `data_through` ont moins de **2 heures**.
 
-4. Reponds **exactement** dans ce format, sans rien ajouter :
+3. **Si une seule de ces conditions est fausse**, reponds exactement une ligne, et rien d'autre :
 
 ```
-CANARY DU FLUX : <la valeur du champ canary, telle quelle>
-GENERE LE : <la valeur de generated_at>
-VERSION DU SKILL : 3.0.0
+FLUX INDISPONIBLE OU PERIME : <la condition qui a echoue>
+```
+
+   Puis arrete-toi. N'affiche aucun item. Ne rejoue rien de memoire. Ne remplace pas par une
+   recherche web. Ne propose pas d'alternative.
+
+4. **Filtre.** Si l'utilisateur a ecrit un ou plusieurs mots apres la commande, ne garde que les
+   entrees dont `tags` contient un de ces mots (comparaison insensible a la casse et aux accents).
+   Sinon, garde tout.
+
+5. **Rends** exactement ce bloc d'entete, puis une puce par entree, rien d'autre :
+
+```
+CANARY — <item_count> incident(s) dans le flux<, filtre : tag si filtre -> N retenu(s)>
+GENERE LE : <generated_at>
+COLLECTE JUSQU'A : <data_through>
+VERSION DU SKILL : 4.0.0
 SURFACE : <ou tu tournes : claude.ai web, Claude Desktop, Claude Code, Cowork>
-ITEMS : <nombre d'items retenus>
 ```
 
-Puis, pour chaque item retenu, une puce :
+Puis, pour chaque entree retenue :
 
 ```
-- **<title>** — <summary en une phrase> [lien](<url>) `<tags separes par des espaces>`
+- **<title>** — <summary, tel quel> `<tags separes par des espaces>` (<family_count> source(s), <summary_mode>)
+  <si victims est non vide : Victimes : les noms separes par des virgules, + "et N autres" si victims_more>
+  <une ligne par entree de sources : [<source_id>](<url>)>
 ```
 
 ## Regles
 
-- La valeur de `canary` **n'est pas dans ce fichier**. Le seul moyen de la connaitre est
-  d'aller lire l'URL. Ne l'invente jamais.
-- Si la lecture de l'URL echoue, dis-le en une ligne : `ECHEC : <la raison>`. N'invente
-  aucun contenu, ne remplace pas par une recherche web generale.
-- Court. Pas d'analyse, pas de recommandation, pas de conclusion.
+- **Ce que tu affiches vient du JSON, integralement.** N'invente jamais un titre, un resume, un
+  lien, un tag ni une victime. Ne resume pas le resume. Ne complete pas un champ vide.
+- **N'affiche jamais une URL qui n'est pas dans `sources[].url`.**
+- **Court.** Pas d'introduction, pas de conclusion, pas d'analyse, pas de recommandation, pas
+  d'evaluation de la situation de l'utilisateur.
+- **Si le filtre ne retient rien**, dis-le en une ligne, avec la liste des tags presents dans le
+  flux du jour.
+- `summary_mode` dit d'ou vient le resume : `gemini` (redige), `template` (gabarit local),
+  `rss` (resume brut du flux). Affiche-le tel quel, ne le commente pas.
