@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Temoin de bout en bout du pipeline de veille</title>
+  <id>urn:veille:temoin</id>
+  <updated>2026-08-23T16:40:54Z</updated>
+  <entry>
+    <id>urn:veille:temoin:TEMOIN-DA80D397</id>
+    <title>TEMOIN-DA80D397 — entree de controle, aucun incident reel</title>
+    <updated>2026-08-23T16:40:54Z</updated>
+    <link rel="alternate" href="https://coyottejay.github.io/veille-canary/witness/feed.xml"/>
+    <summary type="text">Entree de controle du pipeline de veille, publiee volontairement pour mesurer la chaine de bout en bout. Elle mentionne une fuite de donnees uniquement pour traverser le filtre de perimetre. Aucune organisation, personne ou victime reelle n est concernee. Identifiant de controle : TEMOIN-DA80D397.</summary>
+  </entry>
+</feed>
